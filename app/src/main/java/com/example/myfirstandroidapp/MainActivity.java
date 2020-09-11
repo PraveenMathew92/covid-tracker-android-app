@@ -2,8 +2,12 @@ package com.example.myfirstandroidapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -61,8 +65,42 @@ public class MainActivity extends AppCompatActivity {
                 Intent captureVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 captureVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, VIDEO_RECORD_TIME);
                 captureVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI);
+
+                CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+                String cameraId = "";
+                try {
+                    String[] cameraIds = cameraManager.getCameraIdList();
+                    for(String id : cameraIds){
+                        if (cameraManager.getCameraCharacteristics(id).get(CameraCharacteristics.FLASH_INFO_AVAILABLE)) {
+                            cameraId = id;
+                            break;
+                        }
+                    }
+                    if(cameraId.equals("")){
+                        Toast.makeText(getApplicationContext(), "No Camera with Flash Found", Toast.LENGTH_SHORT);
+                    }
+
+                } catch (CameraAccessException e) {
+                    Toast.makeText(getApplicationContext(), "Failed To Get Camera For Flash", Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+
                 if(captureVideoIntent.resolveActivity(getPackageManager()) != null) {
+                    try {
+                        if(!cameraId.equals(""))
+                            cameraManager.setTorchMode(cameraId, true);
+                    } catch (CameraAccessException e) {
+                        Toast.makeText(getApplicationContext(), "Unable to turn on camera", Toast.LENGTH_SHORT)
+                                .show();
+                    }
                     startActivityForResult(captureVideoIntent, 1);
+                    try {
+                        if(!cameraId.equals(""))
+                            cameraManager.setTorchMode(cameraId, false);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
