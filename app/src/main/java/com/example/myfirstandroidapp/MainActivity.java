@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
@@ -109,15 +111,21 @@ public class MainActivity extends AppCompatActivity {
 
         Button captureSymptoms = (Button) findViewById(R.id.captureSymptoms);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final EditText inputField = new EditText(this);
+        inputField.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputField.setHint("LastName");
+
         captureSymptoms.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) { inputField.setInputType(InputType.TYPE_CLASS_TEXT);
                 alertDialogBuilder
                         .setTitle("Enter Last Name")
+                        .setView(inputField)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "Clicked Positive", Toast.LENGTH_SHORT)
+                                String name = inputField.getText().toString();
+                                Toast.makeText(getApplicationContext(), "Saved name " + name, Toast.LENGTH_SHORT)
                                         .show();
                             }
                         })

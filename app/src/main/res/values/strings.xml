@@ -2,4 +2,5 @@
     <string name="app_name">My First Android APp</string>
     <string name="capture_symptoms">Capture Symptoms</string>
     <string name="start_video_recording">Start Video Recording</string>
+    <string name="last_name">LastName</string>
 </resources>
