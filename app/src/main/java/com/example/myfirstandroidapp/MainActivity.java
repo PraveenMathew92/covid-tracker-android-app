@@ -1,8 +1,10 @@
 package com.example.myfirstandroidapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
@@ -38,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
                 PackageManager.FEATURE_CAMERA_ANY);
 
         Button startVideoButton = (Button) findViewById(R.id.startVideoButton);
-        if(!hasCamera){
+        if (!hasCamera) {
             startVideoButton.setEnabled(false);
         }
 
-        startVideoButton.setOnClickListener(new View.OnClickListener () {
+        startVideoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     .show();
                     */
 
-                if(!Environment.getExternalStorageState().equals(MEDIA_MOUNTED)){
+                if (!Environment.getExternalStorageState().equals(MEDIA_MOUNTED)) {
                     Toast.makeText(getApplicationContext(), "Failed to Get External Storage", Toast.LENGTH_SHORT)
                             .show();
                     return;
@@ -70,13 +72,13 @@ public class MainActivity extends AppCompatActivity {
                 String cameraId = "";
                 try {
                     String[] cameraIds = cameraManager.getCameraIdList();
-                    for(String id : cameraIds){
+                    for (String id : cameraIds) {
                         if (cameraManager.getCameraCharacteristics(id).get(CameraCharacteristics.FLASH_INFO_AVAILABLE)) {
                             cameraId = id;
                             break;
                         }
                     }
-                    if(cameraId.equals("")){
+                    if (cameraId.equals("")) {
                         Toast.makeText(getApplicationContext(), "No Camera with Flash Found", Toast.LENGTH_SHORT);
                     }
 
@@ -86,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(captureVideoIntent.resolveActivity(getPackageManager()) != null) {
+                if (captureVideoIntent.resolveActivity(getPackageManager()) != null) {
                     try {
-                        if(!cameraId.equals(""))
+                        if (!cameraId.equals(""))
                             cameraManager.setTorchMode(cameraId, true);
                     } catch (CameraAccessException e) {
                         Toast.makeText(getApplicationContext(), "Unable to turn on camera", Toast.LENGTH_SHORT)
@@ -96,12 +98,35 @@ public class MainActivity extends AppCompatActivity {
                     }
                     startActivityForResult(captureVideoIntent, 1);
                     try {
-                        if(!cameraId.equals(""))
+                        if (!cameraId.equals(""))
                             cameraManager.setTorchMode(cameraId, false);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        Button captureSymptoms = (Button) findViewById(R.id.captureSymptoms);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        captureSymptoms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogBuilder
+                        .setTitle("Enter Last Name")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Clicked Positive", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
             }
         });
     }
