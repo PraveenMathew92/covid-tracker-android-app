@@ -2,6 +2,7 @@ package com.example.myfirstandroidapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -50,14 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                /*
-                Context context = getApplicationContext();
-                String toastMessage = "Clicked Start Video Button";
-                int duration =  Toast.LENGTH_SHORT;
-                Toast.makeText(context, toastMessage, duration)
-                    .show();
-                    */
-
                 if (!Environment.getExternalStorageState().equals(MEDIA_MOUNTED)) {
                     Toast.makeText(getApplicationContext(), "Failed to Get External Storage", Toast.LENGTH_SHORT)
                             .show();
@@ -127,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                                 String name = inputField.getText().toString();
                                 Toast.makeText(getApplicationContext(), "Saved name " + name, Toast.LENGTH_SHORT)
                                         .show();
+                                MetricDatabase database = Room.databaseBuilder(getApplicationContext(),
+                                        MetricDatabase.class, "database-name").build();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
