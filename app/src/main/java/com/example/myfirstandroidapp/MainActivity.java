@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                                         .show();
                                 MetricDatabase database = Room.databaseBuilder(getApplicationContext(),
                                         MetricDatabase.class, "database-name").build();
+                                startActivity(new Intent(MainActivity.this, SymptomCollectorActivity.class));
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
