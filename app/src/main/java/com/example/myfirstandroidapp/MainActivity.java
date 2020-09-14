@@ -2,7 +2,6 @@ package com.example.myfirstandroidapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -74,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if (cameraId.equals("")) {
-                        Toast.makeText(getApplicationContext(), "No Camera with Flash Found", Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "No Camera with Flash Found", Toast.LENGTH_SHORT)
+                        .show();
                     }
 
                 } catch (CameraAccessException e) {
@@ -117,11 +117,10 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String name = inputField.getText().toString();
-                                Toast.makeText(getApplicationContext(), "Saved name " + name, Toast.LENGTH_SHORT)
+                                String lastname = inputField.getText().toString();
+                                Toast.makeText(getApplicationContext(), "Saved name " + lastname, Toast.LENGTH_SHORT)
                                         .show();
-                                MetricDatabase database = Room.databaseBuilder(getApplicationContext(),
-                                        MetricDatabase.class, "database-name").build();
+                                MetricDatabase.createDatabase(getApplicationContext(), lastname);
                                 startActivity(new Intent(MainActivity.this, SymptomCollectorActivity.class));
                             }
                         })
