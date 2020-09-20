@@ -1,8 +1,5 @@
 package com.example.myfirstandroidapp;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+
 import java.io.File;
 
 import static android.os.Environment.MEDIA_MOUNTED;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OpenCVLoader.initDebug();
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -92,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                     startActivityForResult(captureVideoIntent, 1);
+                    Toast.makeText(getApplicationContext(), "Saved to " + fileURI.toString(), Toast.LENGTH_SHORT)
+                            .show();
                     try {
                         if (!cameraId.equals(""))
                             cameraManager.setTorchMode(cameraId, false);
@@ -99,6 +106,17 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        String path = "/storage/emulated/0/Android/data/com.example.myfirstandroidapp/files/FingertipVideo.avi";
+        HeartRateCalculator.calculate(path);
+
+        Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
+        measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent(MainActivity.this, SymptomCollectorActivity.class));
             }
         });
 

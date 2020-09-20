@@ -4,4 +4,6 @@
     <string name="start_video_recording">Start Video Recording</string>
     <string name="last_name">LastName</string>
     <string name="symptom_1">Symptom 1</string>
+    <string name="start_respiratory">Start</string>
+    <string name="measure_respiratory_rate">Measure Respiratory Rate</string>
 </resources>
