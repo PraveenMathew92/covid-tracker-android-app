@@ -20,9 +20,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
@@ -109,8 +110,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String path = "/storage/emulated/0/Android/data/com.example.myfirstandroidapp/files/FingertipVideo.avi";
-        HeartRateCalculator.calculate(path);
+//        Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
+//        HeartRateCalculator.enqueueWork(getApplicationContext(), intent);
+
+        WorkRequest request = new OneTimeWorkRequest.Builder(HeartRateCalculator.class)
+                .build();
+        WorkManager.getInstance(getApplicationContext())
+                .enqueue(request);
 
         Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
         measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
