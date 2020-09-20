@@ -20,9 +20,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import org.opencv.android.OpenCVLoader;
 
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (cameraId.equals("")) {
                         Toast.makeText(getApplicationContext(), "No Camera with Flash Found", Toast.LENGTH_SHORT)
-                        .show();
+                                .show();
                     }
 
                 } catch (CameraAccessException e) {
@@ -110,13 +107,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
-//        HeartRateCalculator.enqueueWork(getApplicationContext(), intent);
-
-        WorkRequest request = new OneTimeWorkRequest.Builder(HeartRateCalculator.class)
-                .build();
-        WorkManager.getInstance(getApplicationContext())
-                .enqueue(request);
+        Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
+        startService(intent)
 
         Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
         measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
         captureSymptoms.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View view) { inputField.setInputType(InputType.TYPE_CLASS_TEXT);
+            public void onClick(final View view) {
+                inputField.setInputType(InputType.TYPE_CLASS_TEXT);
                 alertDialogBuilder
                         .setTitle("Enter Last Name")
                         .setView(inputField)

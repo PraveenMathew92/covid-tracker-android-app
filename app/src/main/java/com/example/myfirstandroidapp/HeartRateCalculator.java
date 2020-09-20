@@ -1,84 +1,106 @@
 package com.example.myfirstandroidapp;
 
-import android.content.Context;
+import android.app.Service;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
-
+import android.os.IBinder;
+import androidx.annotation.Nullable;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
-public class HeartRateCalculator extends Worker {
-    private static final int JOB_ID = 2;
+public class HeartRateCalculator extends Service {
 
-    public HeartRateCalculator(@NonNull Context context, @NonNull WorkerParameters workerParams) {
-        super(context, workerParams);
-    }
+    private String ANDROID_CHANNEL_ID = "channel-id";
 
-    private static int calculate(String filePath) {
+    static int calculate(String filePath) {
         VideoCapture videoCapture = new VideoCapture(filePath);
         if (!videoCapture.isOpened()) {
             return -1;
         }
         List<Double> meanRedIntensities = new ArrayList<>();
         Mat image = new Mat();
-        int frameCount = 0;
-        while (videoCapture.grab()){
-            videoCapture.retrieve(image);
-            Mat redChannel = new Mat();
+        Mat redChannel = new Mat();
+        while (videoCapture.read(image)) {
+            videoCapture.read(image);
             Core.extractChannel(image, redChannel, 2);
-            System.out.println(++frameCount);
-            meanRedIntensities.add(Core.mean(redChannel).val[0]);
+            double frameRedIntensityMean = Core.mean(redChannel).val[0];
+            meanRedIntensities.add(frameRedIntensityMean);
         }
-        movingAverage(meanRedIntensities, 8, 8);
+        List<Double> movingAverageList = movingAverage(meanRedIntensities, 8, 5);
+
+        int sampleCount = 9;
+        int sampleSize = movingAverageList.size()/sampleCount;
+        int zeroCrossOverCount = 0;
+        for(int i = sampleSize; i < movingAverageList.size(); i += sampleSize){
+            int zeroCrossOverInSample = zeroCrossOvers(movingAverageList.subList(i - sampleSize, i));
+            System.out.println(zeroCrossOverInSample);
+            zeroCrossOverCount += zeroCrossOverInSample;
+        }
+        System.out.println(zeroCrossOverCount/(sampleCount*2));
         return 0;
     }
 
     private static List<Double> movingAverage(List<Double> list, int windowSize, int sampleRate) {
         List<Double> movingAverageList = new ArrayList<>();
         double sum = list.get(0);
-        for(int i = 1; i < list.size(); i++) {
+        for (int i = 1; i < list.size(); i++) {
             double element = list.get(i);
             sum += element;
             list.set(i, sum);
         }
-        for(int i = windowSize - 1; i < list.size(); i += sampleRate) {
-            double movingAverage =  (list.get(i) - list.get(i - windowSize + 1))/windowSize;
+        for (int i = windowSize; i < list.size(); i += sampleRate) {
+            double movingAverage = (list.get(i) - list.get(i - windowSize)) / windowSize;
             movingAverageList.add(movingAverage);
-            System.out.println(movingAverage);
         }
-        System.out.println(movingAverageList.size());
         return movingAverageList;
     }
 
+    private static int zeroCrossOvers(List<Double> list) {
+        if(list.size() < 2)
+            return 0;
+        double previousElement;
+        double nextElement = list.get(1);
+        double currentElement = list.get(0);
+        int crossOverCount = 0;
+        for (int i = 1; i < list.size() - 1; i++) {
+            previousElement = currentElement;
+            currentElement = nextElement;
+            nextElement = list.get(i + 1);
+            boolean isTrough = previousElement >= currentElement && currentElement < nextElement;
+            boolean isCrest = previousElement <= currentElement && currentElement > nextElement;
+            if (isTrough || isCrest)
+                crossOverCount++;
+        }
+        return crossOverCount;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                String path = "/storage/emulated/0/Android/data/com.example.myfirstandroidapp/files/FingertipVideo.avi";
+                HeartRateCalculator.calculate(path);
+            }
+        });
+        return START_REDELIVER_INTENT;
+    }
 
 //    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        System.out.println("IN SERVICE");
-//        Executors.newSingleThreadExecutor().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                String path = "/storage/emulated/0/Android/data/com.example.myfirstandroidapp/files/FingertipVideo.avi";
-//                System.out.println("Begin Execution");
-//                HeartRateCalculator.calculate(path);
-//                stopSelf();
-//            }
-//        });
-//        return START_STICKY;
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Intent broadcastIntent = new Intent();
+//        broadcastIntent.setAction("restartservice");
+//        broadcastIntent.setClass(this, HeartRateCalculator.class);
+//        this.sendBroadcast(broadcastIntent);
 //    }
 
-    @NonNull
+    @Nullable
     @Override
-    public Result doWork() {
-        String path = "/storage/emulated/0/Android/data/com.example.myfirstandroidapp/files/FingertipVideo.avi";
-        System.out.println("Begin Execution");
-        HeartRateCalculator.calculate(path);
-        return Result.success();
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }
