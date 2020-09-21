@@ -108,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
-        startService(intent)
+        startService(intent);
 
         Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
         measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startService(new Intent(MainActivity.this, SymptomCollectorActivity.class));
+                startService(new Intent(MainActivity.this, AccelerometerService.class));
             }
         });
 

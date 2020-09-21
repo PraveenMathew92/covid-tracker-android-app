@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SymptomCollectorActivity"/>
+        <service android:name=".AccelerometerService" />
         <service android:enabled="true" android:name="com.example.myfirstandroidapp.HeartRateCalculator"/>
     </application>
 
