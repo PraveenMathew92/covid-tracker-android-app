@@ -13,6 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class AccelerometerService extends Service implements SensorEventListener {
     private SensorManager accelerometerSensorManager;
@@ -36,20 +40,58 @@ public class AccelerometerService extends Service implements SensorEventListener
             accelerometerValuesY[index] = event.values[1];
             accelerometerValuesZ[index] = event.values[2];
             index++;
+            System.out.println("INDEX : " + index);
         }
-        Toast.makeText(this, "Captured the respiratory pattern", Toast.LENGTH_SHORT)
-                .show();
-        if(index > 1027) {
+        if(index > 27) {
+            Toast.makeText(this, "Captured the respiratory pattern", Toast.LENGTH_SHORT)
+                    .show();
             accelerometerSensorManager.unregisterListener(this);
-            for (int i = 0; i < 1028; i++){
-                System.out.println(accelerometerValuesX[i] + " " + accelerometerValuesY[i] + " " + accelerometerValuesZ[i]);
-            }
+            saveToFile();
         }
     }
 
     private void saveToFile() {
         String fileName = "CSVBreath.csv";
-        File file = new File(getApplicationContext().getExternalFilesDirs(null)[0], fileName);
+        OutputStreamWriter writer = null;
+        try {
+            FileOutputStream fileOutputStream = getApplicationContext().openFileOutput(fileName, MODE_PRIVATE);
+            writer = new OutputStreamWriter(fileOutputStream);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "Failed to create file to store accelerometer values", Toast.LENGTH_SHORT)
+            .show();
+        }
+        for(float xAxisValue: accelerometerValuesX) {
+            try {
+                writer.write(String.valueOf(xAxisValue) + "\n");
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Failed to write x axis paramter to file", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }for(float yAxisValue: accelerometerValuesY) {
+            try {
+                writer.write(String.valueOf(yAxisValue) + "\n");
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Failed to write y axis paramter to file", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }for(float zAxisValue: accelerometerValuesY) {
+            try {
+                writer.write(String.valueOf(zAxisValue) + "\n");
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Failed to write z axis paramter to file", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "Failed to close the file", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        Toast.makeText(getApplicationContext(), "Saved accelerometer values to file " + getApplicationContext().getFilesDir() + fileName, Toast.LENGTH_SHORT)
+                .show();
+        System.out.println(getApplication().getFilesDir() + " LOCAL STORAGE ");
+
     }
 
     @Override
