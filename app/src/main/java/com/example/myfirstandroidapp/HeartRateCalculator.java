@@ -2,6 +2,7 @@ package com.example.myfirstandroidapp;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import org.opencv.core.Core;
@@ -12,10 +13,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class HeartRateCalculator extends Service {
-
-    private String ANDROID_CHANNEL_ID = "channel-id";
-
-    static int calculate(String filePath) {
+    static double calculate(String filePath) {
         VideoCapture videoCapture = new VideoCapture(filePath);
         if (!videoCapture.isOpened()) {
             return -1;
@@ -29,21 +27,26 @@ public class HeartRateCalculator extends Service {
             double frameRedIntensityMean = Core.mean(redChannel).val[0];
             meanRedIntensities.add(frameRedIntensityMean);
         }
-        List<Double> movingAverageList = movingAverage(meanRedIntensities, 8, 5);
+        List<Double> movingAverageList = movingAverage(meanRedIntensities, 5, 5);
 
         int sampleCount = 9;
         int sampleSize = movingAverageList.size()/sampleCount;
         int zeroCrossOverCount = 0;
-        for(int i = sampleSize; i < movingAverageList.size(); i += sampleSize){
-            int zeroCrossOverInSample = zeroCrossOvers(movingAverageList.subList(i - sampleSize, i));
-            System.out.println(zeroCrossOverInSample);
-            zeroCrossOverCount += zeroCrossOverInSample;
-        }
-        System.out.println(zeroCrossOverCount/(sampleCount*2));
-        return 0;
+//        for(int i = sampleSize; i < movingAverageList.size(); i += sampleSize){
+//            int zeroCrossOverInSample = zeroCrossOvers(movingAverageList.subList(i - sampleSize, i));
+//            System.out.println(zeroCrossOverInSample);
+//            zeroCrossOverCount += zeroCrossOverInSample;
+//        }
+        zeroCrossOverCount = zeroCrossOvers(movingAverageList);
+        double averageZeroCrossOvers = (double) (zeroCrossOverCount)/sampleCount;
+
+//        average * 1/2 * sampleCount *  3/4
+
+        double heartRate = (double) (zeroCrossOverCount * 3)/8;
+        return heartRate;
     }
 
-    private static List<Double> movingAverage(List<Double> list, int windowSize, int sampleRate) {
+    public static List<Double> movingAverage(List<Double> list, int windowSize, int sampleRate) {
         List<Double> movingAverageList = new ArrayList<>();
         double sum = list.get(0);
         for (int i = 1; i < list.size(); i++) {
@@ -58,7 +61,7 @@ public class HeartRateCalculator extends Service {
         return movingAverageList;
     }
 
-    private static int zeroCrossOvers(List<Double> list) {
+    public static int zeroCrossOvers(List<Double> list) {
         if(list.size() < 2)
             return 0;
         double previousElement;
@@ -78,12 +81,16 @@ public class HeartRateCalculator extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 String path = "/storage/emulated/0/Android/data/com.example.myfirstandroidapp/files/FingertipVideo.avi";
-                HeartRateCalculator.calculate(path);
+                double heartRate = HeartRateCalculator.calculate(path);
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.setAction("Heart Rate Receive Action");
+                broadcastIntent.putExtra("heartRate", heartRate);
+                getApplicationContext().sendBroadcast(broadcastIntent);
             }
         });
         return START_REDELIVER_INTENT;
@@ -97,6 +104,12 @@ public class HeartRateCalculator extends Service {
 //        broadcastIntent.setClass(this, HeartRateCalculator.class);
 //        this.sendBroadcast(broadcastIntent);
 //    }
+
+    public class HeartRateBinder extends Binder {
+        HeartRateCalculator getService() {
+            return HeartRateCalculator.this;
+        }
+    }
 
     @Nullable
     @Override

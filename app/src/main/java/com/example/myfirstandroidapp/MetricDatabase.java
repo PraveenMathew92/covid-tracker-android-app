@@ -5,8 +5,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import java.util.Objects;
-
 @Database(entities = {HealthMetricsEntity.class}, version = 1)
 public abstract class MetricDatabase extends RoomDatabase {
     private static MetricDatabase database;

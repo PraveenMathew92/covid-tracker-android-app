@@ -30,6 +30,8 @@ import static android.os.Environment.MEDIA_MOUNTED;
 public class MainActivity extends AppCompatActivity {
 
     private static final int VIDEO_RECORD_TIME = 3;
+//    boolean boundHeartRateComputationService = false;
+//    boolean finishedRespiratoryRateComputation = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
-        startService(intent);
-
         Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
         measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Saved name " + lastname, Toast.LENGTH_SHORT)
                                         .show();
                                 MetricDatabase.createDatabase(getApplicationContext(), lastname);
-                                startActivity(new Intent(MainActivity.this, SymptomCollectorActivity.class));
+                                startActivity(new Intent(getApplicationContext(), SymptomCollectorActivity.class));
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -149,5 +148,33 @@ public class MainActivity extends AppCompatActivity {
                         }).show();
             }
         });
+
+//        ServiceConnection heartRateServiceConnection = new ServiceConnection() {
+//            @Override
+//            public void onServiceConnected(ComponentName name, IBinder service) {
+//                boundHeartRateComputationService = true;
+//                if(finishedRespiratoryRateComputation) {
+//                }
+//            }
+//
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+//                boundHeartRateComputationService = false;
+//            }
+//        };
+
+//        Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
+//        System.out.println("Start Service HeartRate Calculator");
+//        startService(intent);
+
+//        getApplicationContext().registerReceiver(new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                boundHeartRateComputationService = true;
+//                double heartRate = intent.getDoubleExtra("heartRate", 0);
+//                System.out.println("Heart Rate = " + heartRate);
+//            }
+//        }, new IntentFilter("heartRateComputer"));
+
     }
 }
