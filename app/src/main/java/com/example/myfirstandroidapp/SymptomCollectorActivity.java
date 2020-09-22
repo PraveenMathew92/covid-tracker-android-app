@@ -40,7 +40,6 @@ public class SymptomCollectorActivity extends AppCompatActivity {
 
         RatingBar symptomOneRating = (RatingBar) findViewById(R.id.symptomRating1);
         int rating = (int) symptomOneRating.getRating();
-
         symptomOneRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {

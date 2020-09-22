@@ -4,6 +4,15 @@
     <string name="start_video_recording">Start Video Recording</string>
     <string name="last_name">LastName</string>
     <string name="symptom_1">Symptom 1</string>
+    <string name="symptom_2">Symptom 2</string>
+    <string name="symptom_3">Symptom 3</string>
+    <string name="symptom_4">Symptom 4</string>
+    <string name="symptom_5">Symptom 5</string>
+    <string name="symptom_6">Symptom 6</string>
+    <string name="symptom_7">Symptom 7</string>
+    <string name="symptom_8">Symptom 8</string>
+    <string name="symptom_9">Symptom 9</string>
+    <string name="symptom_10">Symptom 10</string>
     <string name="start_respiratory">Start</string>
     <string name="measure_respiratory_rate">Measure Respiratory Rate</string>
 </resources>
