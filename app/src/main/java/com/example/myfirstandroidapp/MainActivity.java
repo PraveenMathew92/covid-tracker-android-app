@@ -29,7 +29,7 @@ import static android.os.Environment.MEDIA_MOUNTED;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int VIDEO_RECORD_TIME = 3;
+    private static final int VIDEO_RECORD_TIME = 45;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -22,7 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AccelerometerService extends Service implements SensorEventListener {
-    public static final int UPTIME = 10000;
+    public static final int UPTIME = 45000;
     private SensorManager accelerometerSensorManager;
     private Sensor senseAccel;
     private int index = 0;
