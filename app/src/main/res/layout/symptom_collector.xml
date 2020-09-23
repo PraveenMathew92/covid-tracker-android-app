@@ -134,7 +134,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please Rate Your Symptoms"
+        android:text="@string/please_rate_your_symptoms"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.41"
@@ -143,131 +143,152 @@
         app:layout_constraintVertical_bias="0.027" />
 
     <RatingBar
-        android:id="@+id/symptomRating1"
+        android:id="@+id/symptomRating10"
         style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
+        android:layout_width="80dp"
         android:layout_height="17dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="340dp"
+        android:isIndicator="false"
         android:numStars="5"
-        android:scaleX="2.5"
+        android:scaleX="1"
         android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="88dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating2"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="120dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating3"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="152dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating4"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="180dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating5"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="212dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating6"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="244dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
-        app:layout_constraintStart_toEndOf="@+id/symptom1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/symptomRating7"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="304dp"
-        android:numStars="5"
-        android:scaleX="2.5"
-        android:scaleY="1"
+        android:stepSize="1"
         app:layout_constraintStart_toEndOf="@+id/symptom1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
         android:id="@+id/symptomRating9"
         style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
+        android:layout_width="80dp"
         android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="336dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="308dp"
+        android:isIndicator="false"
         android:numStars="5"
-        android:scaleX="2.5"
+        android:scaleX="1"
         android:scaleY="1"
+        android:stepSize="1"
         app:layout_constraintStart_toEndOf="@+id/symptom1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
         android:id="@+id/symptomRating8"
         style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="86dp"
+        android:layout_width="80dp"
         android:layout_height="17dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="276dp"
+        android:isIndicator="false"
         android:numStars="5"
-        android:scaleX="2.5"
+        android:scaleX="1"
         android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating7"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="244dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating6"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="212dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating5"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="180dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating4"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="148dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating3"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="116dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating2"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="84dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@+id/symptom1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/symptomRating1"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="52dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:stepSize="1"
         app:layout_constraintStart_toEndOf="@+id/symptom1"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
