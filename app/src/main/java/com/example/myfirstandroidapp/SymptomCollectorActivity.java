@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +62,7 @@ public class SymptomCollectorActivity extends AppCompatActivity {
                         Intent saveDBIntent = new Intent(getApplicationContext(), SaveToDatabaseService.class);
                         saveDBIntent.putExtra("symptoms", symptoms);
                         startService(saveDBIntent);
+                        finishAffinity();
                     }
                 });
             }
