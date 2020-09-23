@@ -30,8 +30,6 @@ import static android.os.Environment.MEDIA_MOUNTED;
 public class MainActivity extends AppCompatActivity {
 
     private static final int VIDEO_RECORD_TIME = 3;
-//    boolean boundHeartRateComputationService = false;
-//    boolean finishedRespiratoryRateComputation = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +40,64 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
 
         setContentView(R.layout.activity_main);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         boolean hasCamera = getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA_ANY);
 
+        captureIndexFingerVideo(hasCamera);
+
+        Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
+        measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent(MainActivity.this, AccelerometerService.class));
+            }
+        });
+
+        Button captureSymptoms = (Button) findViewById(R.id.captureSymptoms);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final EditText inputField = new EditText(this);
+        inputField.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputField.setHint("LastName");
+
+        captureSymptoms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                inputField.setInputType(InputType.TYPE_CLASS_TEXT);
+                alertDialogBuilder
+                        .setTitle("Enter Last Name")
+                        .setView(inputField)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String lastname = inputField.getText().toString();
+                                Toast.makeText(getApplicationContext(), "Saved name " + lastname, Toast.LENGTH_SHORT)
+                                        .show();
+                                MetricDatabase.createDatabase(getApplicationContext(), lastname);
+                                startActivity(new Intent(getApplicationContext(), SymptomCollectorActivity.class));
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
+            }
+        });
+    }
+
+    private void captureIndexFingerVideo(boolean hasCamera) {
         Button startVideoButton = (Button) findViewById(R.id.startVideoButton);
         if (!hasCamera) {
             startVideoButton.setEnabled(false);
         }
 
         startVideoButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 if (!Environment.getExternalStorageState().equals(MEDIA_MOUNTED)) {
@@ -108,73 +153,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        Button measureRespiratoryRateButton = (Button) findViewById(R.id.respiratory_rate_measure_button);
-        measureRespiratoryRateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startService(new Intent(MainActivity.this, AccelerometerService.class));
-            }
-        });
-
-        Button captureSymptoms = (Button) findViewById(R.id.captureSymptoms);
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        final EditText inputField = new EditText(this);
-        inputField.setInputType(InputType.TYPE_CLASS_TEXT);
-        inputField.setHint("LastName");
-
-        captureSymptoms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                inputField.setInputType(InputType.TYPE_CLASS_TEXT);
-                alertDialogBuilder
-                        .setTitle("Enter Last Name")
-                        .setView(inputField)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String lastname = inputField.getText().toString();
-                                Toast.makeText(getApplicationContext(), "Saved name " + lastname, Toast.LENGTH_SHORT)
-                                        .show();
-                                MetricDatabase.createDatabase(getApplicationContext(), lastname);
-                                startActivity(new Intent(getApplicationContext(), SymptomCollectorActivity.class));
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).show();
-            }
-        });
-
-//        ServiceConnection heartRateServiceConnection = new ServiceConnection() {
-//            @Override
-//            public void onServiceConnected(ComponentName name, IBinder service) {
-//                boundHeartRateComputationService = true;
-//                if(finishedRespiratoryRateComputation) {
-//                }
-//            }
-//
-//            @Override
-//            public void onServiceDisconnected(ComponentName name) {
-//                boundHeartRateComputationService = false;
-//            }
-//        };
-
-//        Intent intent = new Intent(getApplicationContext(), HeartRateCalculator.class);
-//        System.out.println("Start Service HeartRate Calculator");
-//        startService(intent);
-
-//        getApplicationContext().registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                boundHeartRateComputationService = true;
-//                double heartRate = intent.getDoubleExtra("heartRate", 0);
-//                System.out.println("Heart Rate = " + heartRate);
-//            }
-//        }, new IntentFilter("heartRateComputer"));
-
     }
 }
