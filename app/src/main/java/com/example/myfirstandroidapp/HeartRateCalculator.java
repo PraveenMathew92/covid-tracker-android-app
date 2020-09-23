@@ -23,7 +23,7 @@ import static com.example.myfirstandroidapp.SlopeAnalysis.zeroCrossOvers;
 
 public class HeartRateCalculator extends Service {
     static double calculate(List<Double> meanRedIntensities) {
-        List<Double> movingAverageList = movingAverage(meanRedIntensities, 5, 5);
+        List<Double> movingAverageList = movingAverage(meanRedIntensities, 15, 15);
         int zeroCrossOverCount = zeroCrossOvers(movingAverageList);
         double heartRate = (double) (zeroCrossOverCount * 2) / 3; // zerocount/2 * (60/45)
         return heartRate;
@@ -55,6 +55,7 @@ public class HeartRateCalculator extends Service {
         List<Double> meanRedIntensities = new ArrayList<>();
         Mat image = new Mat();
         Mat redChannel = new Mat();
+        int frameCount = 0;
         while (videoCapture.read(image)) {
             Core.extractChannel(image, redChannel, 2);
             double frameRedIntensityMean = Core.mean(redChannel).val[0];

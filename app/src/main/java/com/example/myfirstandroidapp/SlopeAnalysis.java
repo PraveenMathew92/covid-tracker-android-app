@@ -30,8 +30,8 @@ public class SlopeAnalysis {
             previousElement = currentElement;
             currentElement = nextElement;
             nextElement = list.get(i + 1);
-            boolean isTrough = previousElement >= currentElement && currentElement < nextElement;
-            boolean isCrest = previousElement <= currentElement && currentElement > nextElement;
+            boolean isTrough = previousElement > currentElement && currentElement < nextElement;
+            boolean isCrest = previousElement < currentElement && currentElement > nextElement;
             if (isTrough || isCrest)
                 crossOverCount++;
         }
