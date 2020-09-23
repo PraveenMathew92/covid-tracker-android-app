@@ -27,8 +27,11 @@ public class SymptomCollectorActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.symptom_collector);
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
         RatingBar symptomOneRating = (RatingBar) findViewById(R.id.symptomRating1);
         RatingBar symptomTwoRating = (RatingBar) findViewById(R.id.symptomRating2);
         RatingBar symptomThreeRating = (RatingBar) findViewById(R.id.symptomRating3);
@@ -67,20 +70,5 @@ public class SymptomCollectorActivity extends AppCompatActivity {
                 });
             }
         });
-
-/*
-        RatingBar[] symptomRatings = {(RatingBar) findViewById(R.id.symptomRating1),
-                (RatingBar) findViewById(R.id.symptomRating2),
-                (RatingBar) findViewById(R.id.symptomRating3),
-                (RatingBar) findViewById(R.id.symptomRating4),
-                (RatingBar) findViewById(R.id.symptomRating5),
-                (RatingBar) findViewById(R.id.symptomRating6),
-                (RatingBar) findViewById(R.id.symptomRating7),
-                (RatingBar) findViewById(R.id.symptomRating8),
-                (RatingBar) findViewById(R.id.symptomRating9),
-                (RatingBar) findViewById(R.id.symptomRating10)
-        };
-*/
-
     }
 }
