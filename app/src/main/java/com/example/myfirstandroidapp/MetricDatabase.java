@@ -10,7 +10,7 @@ public abstract class MetricDatabase extends RoomDatabase {
     private static MetricDatabase database;
 
     public static synchronized void createDatabase(Context context, String lastname) {
-        database = Room.databaseBuilder(context, MetricDatabase.class, "database-name")
+        database = Room.databaseBuilder(context, MetricDatabase.class, lastname)
                 .build();
     }
 
