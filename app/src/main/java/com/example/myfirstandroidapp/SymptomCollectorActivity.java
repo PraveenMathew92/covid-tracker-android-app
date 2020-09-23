@@ -13,14 +13,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.concurrent.Executors;
 
 public class SymptomCollectorActivity extends AppCompatActivity {
-    private int [] symptoms = new int[10];
+    private int[] symptoms = new int[10];
+
+    private void setRatingButtonActions(RatingBar ratingBar, final int index) {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                symptoms[index] = (int) rating;
+            }
+        });
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.symptom_collector);
-        final HealthMetricsEntity entity = new HealthMetricsEntity();
 
+
+        RatingBar symptomOneRating = (RatingBar) findViewById(R.id.symptomRating1);
+        RatingBar symptomTwoRating = (RatingBar) findViewById(R.id.symptomRating2);
+        RatingBar symptomThreeRating = (RatingBar) findViewById(R.id.symptomRating3);
+        RatingBar symptomFourRating = (RatingBar) findViewById(R.id.symptomRating4);
+        RatingBar symptomFiveRating = (RatingBar) findViewById(R.id.symptomRating5);
+        RatingBar symptomSixRating = (RatingBar) findViewById(R.id.symptomRating6);
+        RatingBar symptomSevenRating = (RatingBar) findViewById(R.id.symptomRating7);
+        RatingBar symptomEightRating = (RatingBar) findViewById(R.id.symptomRating8);
+        RatingBar symptomNineRating = (RatingBar) findViewById(R.id.symptomRating9);
+        RatingBar symptomTenRating = (RatingBar) findViewById(R.id.symptomRating10);
+
+        setRatingButtonActions(symptomOneRating, 0);
+        setRatingButtonActions(symptomTwoRating, 1);
+        setRatingButtonActions(symptomThreeRating, 2);
+        setRatingButtonActions(symptomFourRating, 3);
+        setRatingButtonActions(symptomFiveRating, 4);
+        setRatingButtonActions(symptomSixRating, 5);
+        setRatingButtonActions(symptomSevenRating, 6);
+        setRatingButtonActions(symptomEightRating, 7);
+        setRatingButtonActions(symptomNineRating, 8);
+        setRatingButtonActions(symptomTenRating, 9);
 
         Button submitSymptoms = (Button) findViewById(R.id.submit_symptoms);
         submitSymptoms.setOnClickListener(new View.OnClickListener() {
@@ -38,15 +68,19 @@ public class SymptomCollectorActivity extends AppCompatActivity {
             }
         });
 
-        RatingBar symptomOneRating = (RatingBar) findViewById(R.id.symptomRating1);
-        int rating = (int) symptomOneRating.getRating();
-        symptomOneRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Toast.makeText(getApplicationContext(), "Selected " + rating, Toast.LENGTH_SHORT)
-                        .show();
-                symptoms[0] = (int) rating;
-            }
-        });
+/*
+        RatingBar[] symptomRatings = {(RatingBar) findViewById(R.id.symptomRating1),
+                (RatingBar) findViewById(R.id.symptomRating2),
+                (RatingBar) findViewById(R.id.symptomRating3),
+                (RatingBar) findViewById(R.id.symptomRating4),
+                (RatingBar) findViewById(R.id.symptomRating5),
+                (RatingBar) findViewById(R.id.symptomRating6),
+                (RatingBar) findViewById(R.id.symptomRating7),
+                (RatingBar) findViewById(R.id.symptomRating8),
+                (RatingBar) findViewById(R.id.symptomRating9),
+                (RatingBar) findViewById(R.id.symptomRating10)
+        };
+*/
+
     }
 }
