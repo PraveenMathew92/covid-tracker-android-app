@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 
+import static com.example.myfirstandroidapp.SlopeAnalysis.movingAverage;
+import static com.example.myfirstandroidapp.SlopeAnalysis.zeroCrossOvers;
+
 public class RespiratoryRateCalculator extends Service {
     @Nullable
     @Override
@@ -42,8 +45,8 @@ public class RespiratoryRateCalculator extends Service {
                         }
 
                         List<Double> yAxisReadings = accelerometerReadings.subList(1281, 2560);
-                        List<Double> movingAverages = HeartRateCalculator.movingAverage(yAxisReadings, 4, 4);
-                        int zeroCrossOverCount = HeartRateCalculator.zeroCrossOvers(movingAverages);
+                        List<Double> movingAverages = movingAverage(yAxisReadings, 4, 4);
+                        int zeroCrossOverCount = zeroCrossOvers(movingAverages);
                         double respiratoryRate = (double) (zeroCrossOverCount * 3)/8;
 
                         Intent broadcastIntent = new Intent();

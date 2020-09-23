@@ -18,48 +18,15 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
+import static com.example.myfirstandroidapp.SlopeAnalysis.movingAverage;
+import static com.example.myfirstandroidapp.SlopeAnalysis.zeroCrossOvers;
 
 public class HeartRateCalculator extends Service {
     static double calculate(List<Double> meanRedIntensities) {
-
         List<Double> movingAverageList = movingAverage(meanRedIntensities, 5, 5);
         int zeroCrossOverCount = zeroCrossOvers(movingAverageList);
         double heartRate = (double) (zeroCrossOverCount * 3) / 8;
         return heartRate;
-    }
-
-    public static List<Double> movingAverage(List<Double> list, int windowSize, int sampleRate) {
-        List<Double> movingAverageList = new ArrayList<>();
-        double sum = list.get(0);
-        for (int i = 1; i < list.size(); i++) {
-            double element = list.get(i);
-            sum += element;
-            list.set(i, sum);
-        }
-        for (int i = windowSize; i < list.size(); i += sampleRate) {
-            double movingAverage = (list.get(i) - list.get(i - windowSize)) / windowSize;
-            movingAverageList.add(movingAverage);
-        }
-        return movingAverageList;
-    }
-
-    public static int zeroCrossOvers(List<Double> list) {
-        if (list.size() < 2)
-            return 0;
-        double previousElement;
-        double nextElement = list.get(1);
-        double currentElement = list.get(0);
-        int crossOverCount = 0;
-        for (int i = 1; i < list.size() - 1; i++) {
-            previousElement = currentElement;
-            currentElement = nextElement;
-            nextElement = list.get(i + 1);
-            boolean isTrough = previousElement >= currentElement && currentElement < nextElement;
-            boolean isCrest = previousElement <= currentElement && currentElement > nextElement;
-            if (isTrough || isCrest)
-                crossOverCount++;
-        }
-        return crossOverCount;
     }
 
     @Override
