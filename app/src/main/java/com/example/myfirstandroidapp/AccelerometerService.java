@@ -25,7 +25,6 @@ public class AccelerometerService extends Service implements SensorEventListener
     public static final int UPTIME = 45000;
     private SensorManager accelerometerSensorManager;
     private Sensor senseAccel;
-    private int index = 0;
     private List<Float> accelerometerValuesX = new ArrayList<>();
     private List<Float> accelerometerValuesY = new ArrayList<>();
     private List<Float> accelerometerValuesZ = new ArrayList<>();
@@ -43,7 +42,6 @@ public class AccelerometerService extends Service implements SensorEventListener
             accelerometerValuesX.add(event.values[0]);
             accelerometerValuesY.add(event.values[1]);
             accelerometerValuesZ.add(event.values[2]);
-            index++;
         }
     }
 

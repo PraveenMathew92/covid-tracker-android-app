@@ -47,7 +47,7 @@ public class RespiratoryRateCalculator extends Service {
                         List<Double> yAxisReadings = accelerometerReadings.subList(1281, 2560);
                         List<Double> movingAverages = movingAverage(yAxisReadings, 4, 4);
                         int zeroCrossOverCount = zeroCrossOvers(movingAverages);
-                        double respiratoryRate = (double) (zeroCrossOverCount * 3)/8;
+                        double respiratoryRate = (double) (zeroCrossOverCount * 2)/3;
 
                         Intent broadcastIntent = new Intent();
                         broadcastIntent.setAction("Respiratory Rate Receive Action");

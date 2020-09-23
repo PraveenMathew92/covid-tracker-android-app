@@ -58,7 +58,6 @@ public class SymptomCollectorActivity extends AppCompatActivity {
         submitSymptoms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MetricDatabase database = MetricDatabase.getInstance(getApplicationContext());
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {

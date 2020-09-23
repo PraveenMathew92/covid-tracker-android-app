@@ -25,7 +25,7 @@ public class HeartRateCalculator extends Service {
     static double calculate(List<Double> meanRedIntensities) {
         List<Double> movingAverageList = movingAverage(meanRedIntensities, 5, 5);
         int zeroCrossOverCount = zeroCrossOvers(movingAverageList);
-        double heartRate = (double) (zeroCrossOverCount * 3) / 8;
+        double heartRate = (double) (zeroCrossOverCount * 2) / 3; // zerocount/2 * (60/45)
         return heartRate;
     }
 
@@ -56,7 +56,6 @@ public class HeartRateCalculator extends Service {
         Mat image = new Mat();
         Mat redChannel = new Mat();
         while (videoCapture.read(image)) {
-            videoCapture.read(image);
             Core.extractChannel(image, redChannel, 2);
             double frameRedIntensityMean = Core.mean(redChannel).val[0];
             meanRedIntensities.add(frameRedIntensityMean);
