@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.concurrent.Executors;
+
 import static com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
 
 public class SymptomCollectorActivity extends AppCompatActivity {
@@ -51,27 +52,8 @@ public class SymptomCollectorActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission to access the location has been granted", Toast.LENGTH_SHORT)
                         .show();
-                fusedLocationClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, null)
-                        .addOnCompleteListener(new OnCompleteListener<Location>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Location> task) {
-                                if(task.isCanceled()) {
-                                    System.out.println("TASK CANCELLED");
-                                    return;
-                                }
-                                Location location = task.getResult();
-                                Intent saveDBIntent = new Intent(getApplicationContext(), SaveToDatabaseService.class);
-                                saveDBIntent.putExtra("symptoms", symptoms);
-                                saveDBIntent.putExtra("latitude", location.getLatitude());
-                                saveDBIntent.putExtra("longitude", location.getLongitude());
-                                System.out.println("LOCATION: " + location.getLatitude() +  ", " + location.getLongitude());
-                                startService(saveDBIntent);
-                                finishAffinity();
-                            }
-                        });
             }
-        }
-        else {
+        } else {
             Toast.makeText(this, "Application doesn't have location permission by default", Toast.LENGTH_SHORT)
                     .show();
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -116,7 +98,7 @@ public class SymptomCollectorActivity extends AppCompatActivity {
                                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Location> task) {
-                                        if(task.isCanceled()) {
+                                        if (task.isCanceled()) {
                                             System.out.println("TASK CANCELLED");
                                             return;
                                         }
@@ -125,24 +107,10 @@ public class SymptomCollectorActivity extends AppCompatActivity {
                                         saveDBIntent.putExtra("symptoms", symptoms);
                                         saveDBIntent.putExtra("latitude", location.getLatitude());
                                         saveDBIntent.putExtra("longitude", location.getLongitude());
-                                        System.out.println("LOCATION: " + location.getLatitude() +  ", " + location.getLongitude());
                                         startService(saveDBIntent);
                                         finishAffinity();
                                     }
                                 });
-                        /*try {
-                            location = Tasks.await(currentLocationFetcher());
-                            System.out.println("LOCATION : " + location.getLatitude() + " " + location.getLongitude());
-                        } catch (ExecutionException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        Intent saveDBIntent = new Intent(getApplicationContext(), SaveToDatabaseService.class);
-                        saveDBIntent.putExtra("symptoms", symptoms);
-                        if(location != null) {
-                            saveDBIntent.putExtra("latitude", location.getLatitude());
-                            saveDBIntent.putExtra("longitude", location.getLongitude());
-                        }
-                        startService(saveDBIntent);*/
                     }
                 });
             }
@@ -151,13 +119,11 @@ public class SymptomCollectorActivity extends AppCompatActivity {
 
     private void checkPermissionForLocation() {
         boolean lacksLocationPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED;
-        if(lacksLocationPermission){
+        if (lacksLocationPermission) {
             Toast.makeText(this, "Application doesn't have location permission", Toast.LENGTH_SHORT)
                     .show();
-            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
-
-        else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        } else {
             Toast.makeText(this, "Has Permissions", Toast.LENGTH_SHORT)
                     .show();
         }
