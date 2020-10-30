@@ -26,6 +26,9 @@ public class HealthMetricsEntity {
     public int symptom9;
     public int symptom10;
 
+    public double latitude;
+    public double longitude;
+
     @Override
     public String toString() {
         return "HealthMetricsEntity{" +
@@ -42,6 +45,8 @@ public class HealthMetricsEntity {
                 ", symptom8=" + symptom8 +
                 ", symptom9=" + symptom9 +
                 ", symptom10=" + symptom10 +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }

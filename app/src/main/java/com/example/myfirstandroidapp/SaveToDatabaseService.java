@@ -38,8 +38,10 @@ public class SaveToDatabaseService extends Service {
         return null;
     }
 
-    private void saveDatabase(int[] symptoms) {
-        populateEntity(symptoms);
+    private void saveDatabase(int[] symptoms, double latitude, double longitude) {
+        populateSymptoms(symptoms);
+        entity.latitude = latitude;
+        entity.longitude = longitude;
         Executors.newSingleThreadExecutor()
                 .execute(new Runnable() {
                     final MetricDatabase database = MetricDatabase.getInstance(getApplicationContext());
@@ -53,7 +55,7 @@ public class SaveToDatabaseService extends Service {
                 });
     }
 
-    private void populateEntity(int[] symptoms) {
+    private void populateSymptoms(int[] symptoms) {
         entity.symptom1 = symptoms[0];
         entity.symptom2 = symptoms[1];
         entity.symptom3 = symptoms[2];
@@ -73,7 +75,9 @@ public class SaveToDatabaseService extends Service {
         startService(new Intent(getApplicationContext(), HeartRateCalculator.class));
         startService(new Intent(getApplicationContext(), RespiratoryRateCalculator.class));
         int[] symptoms = intent.getIntArrayExtra("symptoms");
-        saveDatabase(symptoms);
+        double latitude = intent.getDoubleExtra("latitude", 0);
+        double longitude = intent.getDoubleExtra("longitude", 0);
+        saveDatabase(symptoms, latitude, longitude);
         return START_STICKY;
     }
 }
