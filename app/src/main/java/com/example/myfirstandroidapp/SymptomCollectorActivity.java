@@ -1,8 +1,6 @@
 package com.example.myfirstandroidapp;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,8 +21,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.concurrent.Executors;
 
 import static com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
