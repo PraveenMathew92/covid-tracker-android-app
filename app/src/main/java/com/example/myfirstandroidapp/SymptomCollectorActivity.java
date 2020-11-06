@@ -123,6 +123,7 @@ public class SymptomCollectorActivity extends AppCompatActivity {
                 Intent uploadDBIntent = new Intent(getApplicationContext(), UploadDatabaseService.class);
                 uploadDBIntent.putExtra("databaseName", dbName);
                 startService(uploadDBIntent);
+                startActivity(new Intent(getApplicationContext(), GetContactGraphActivity.class));
             }
         });
     }

@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SymptomCollectorActivity"/>
+        <activity android:name=".GetContactGraphActivity"/>
         <service android:name=".AccelerometerService" />
         <service android:name=".HeartRateCalculator"/>
         <service android:name=".RespiratoryRateCalculator"/>
