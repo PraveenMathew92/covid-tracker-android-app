@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myfirstandroidapp">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.flash" />
@@ -24,6 +26,7 @@
         <service android:name=".HeartRateCalculator"/>
         <service android:name=".RespiratoryRateCalculator"/>
         <service android:name=".SaveToDatabaseService"/>
+        <service android:name=".UploadDatabaseService"/>
     </application>
 
 </manifest>

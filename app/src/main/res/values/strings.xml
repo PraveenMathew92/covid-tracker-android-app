@@ -16,4 +16,5 @@
     <string name="start_respiratory">Start</string>
     <string name="measure_respiratory_rate">Measure Respiratory Rate</string>
     <string name="please_rate_your_symptoms">Please Rate Your Symptoms</string>
+    <string name="upload_db">Upload DB</string>
 </resources>

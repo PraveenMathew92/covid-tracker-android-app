@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -51,6 +52,8 @@ public class SaveToDatabaseService extends Service {
                         System.out.println("ENTITY:\n" + entity.toString());
                         database.healthMetricDao()
                                 .insert(entity);
+                        Toast.makeText(getApplicationContext(), "Saved to Database", Toast.LENGTH_SHORT)
+                            .show();
                     }
                 });
     }
