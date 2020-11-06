@@ -1,7 +1,6 @@
 package com.example.myfirstandroidapp;
 
 import android.app.DatePickerDialog;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -25,10 +24,9 @@ public class GetContactGraphActivity extends AppCompatActivity {
         selectDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
+                int year = 2011;
+                int month = 11;
+                int day = 15;
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(GetContactGraphActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
