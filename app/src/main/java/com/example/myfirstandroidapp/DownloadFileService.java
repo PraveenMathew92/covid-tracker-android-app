@@ -1,9 +1,12 @@
 package com.example.myfirstandroidapp;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,8 +26,13 @@ public class DownloadFileService extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         String subjectId = intent.getStringExtra("subject_id");
         String date = intent.getStringExtra("date");
-        Objects.requireNonNull(date).replace("-", "");
+        date = Objects.requireNonNull(date).replace("-", "");
         final String urlString = "http://10.0.2.2:5000/" + subjectId + "/" + date;
+        final String contactGraphFileName = "ContactGraph";
+        File file = new File(getApplicationContext().getFilesDir(), contactGraphFileName); //delete if exists
+        if (file.exists()) {
+            file.delete();
+        }
 
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
@@ -41,7 +49,7 @@ public class DownloadFileService extends Service {
                     urlConnection.setRequestProperty("X-Environment", "android");
                     urlConnection.connect();
                     input = urlConnection.getInputStream();
-                    OutputStream output = getApplicationContext().openFileOutput("ContactGraph", MODE_PRIVATE);
+                    OutputStream output = getApplicationContext().openFileOutput(contactGraphFileName, MODE_PRIVATE);
                     byte[] buffer = new byte[1024];
                     int bytesRead;
                     while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0) {
@@ -49,6 +57,7 @@ public class DownloadFileService extends Service {
                     }
                     output.close();
                     input.close();
+                    getApplicationContext().sendBroadcast(new Intent("Contact Graph File Downloaded"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
