@@ -119,10 +119,7 @@ public class SymptomCollectorActivity extends AppCompatActivity {
         uploadDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String dbName = "Mathew";
-                Intent uploadDBIntent = new Intent(getApplicationContext(), UploadDatabaseService.class);
-                uploadDBIntent.putExtra("databaseName", dbName);
-                startService(uploadDBIntent);
+                startService(new Intent(getApplicationContext(), UploadDatabaseService.class));
                 startActivity(new Intent(getApplicationContext(), GetContactGraphActivity.class));
             }
         });

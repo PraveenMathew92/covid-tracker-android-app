@@ -52,8 +52,7 @@ public class SaveToDatabaseService extends Service {
                         System.out.println("ENTITY:\n" + entity.toString());
                         database.healthMetricDao()
                                 .insert(entity);
-                        Toast.makeText(getApplicationContext(), "Saved to Database", Toast.LENGTH_SHORT)
-                            .show();
+                        database.close();
                     }
                 });
     }

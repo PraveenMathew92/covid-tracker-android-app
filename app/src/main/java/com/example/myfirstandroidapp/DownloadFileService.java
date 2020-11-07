@@ -41,7 +41,6 @@ public class DownloadFileService extends Service {
                     urlConnection.setRequestProperty("X-Environment", "android");
                     urlConnection.connect();
                     input = urlConnection.getInputStream();
-                    System.out.println("DOWnlfoafhing ...");
                     OutputStream output = getApplicationContext().openFileOutput("ContactGraph", MODE_PRIVATE);
                     byte[] buffer = new byte[1024];
                     int bytesRead;

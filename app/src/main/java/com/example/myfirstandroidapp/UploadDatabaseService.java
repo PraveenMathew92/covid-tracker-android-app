@@ -26,9 +26,9 @@ public class UploadDatabaseService extends Service {
 
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        final String dbName = intent.getStringExtra("databaseName");
+        final String dbName = MetricDatabase.getName(getApplicationContext());
         final String url = "http://10.0.2.2:5000/uploadfile";
-        final File videoFile = getApplicationContext().getDatabasePath(dbName);
+        final File databaseFile = getApplicationContext().getDatabasePath(dbName);
         final String charset = "UTF-8";
         final String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
         final String CRLF = "\r\n"; // Line separator required by multipart/form-data.
@@ -48,10 +48,10 @@ public class UploadDatabaseService extends Service {
 
                         // Send db file.
                         writer.append("--" + boundary).append(CRLF);
-                        writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + videoFile.getName() + "\"").append(CRLF);
-                        writer.append("Content-Type: text/html; charset=" + charset).append(CRLF); // Text file itself must be saved in this charset!
+                        writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + databaseFile.getName() + "\"").append(CRLF);
+                        writer.append("Content-Type: */*; charset=" + charset).append(CRLF); // Text file itself must be saved in this charset!
                         writer.append(CRLF).flush();
-                        FileInputStream fileInputStream = new FileInputStream(videoFile);
+                        FileInputStream fileInputStream = new FileInputStream(databaseFile);
                         try {
                             byte[] buffer = new byte[1024];
                             int bytesRead = 0;
