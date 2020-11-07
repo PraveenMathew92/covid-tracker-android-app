@@ -19,6 +19,7 @@
     <string name="upload_db">Upload DB</string>
     <string name="select_date">Select Date</string>
     <string name="submit">Submit</string>
+    <string name="select_subject">Select Subject</string>
     <string-array name="subject_array">
         <item>1</item>
         <item>2</item>

@@ -28,6 +28,7 @@
         <service android:name=".RespiratoryRateCalculator"/>
         <service android:name=".SaveToDatabaseService"/>
         <service android:name=".UploadDatabaseService"/>
+        <service android:name=".DownloadFileService"/>
     </application>
 
 </manifest>
