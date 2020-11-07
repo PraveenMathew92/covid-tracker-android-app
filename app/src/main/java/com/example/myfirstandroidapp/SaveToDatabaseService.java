@@ -53,6 +53,7 @@ public class SaveToDatabaseService extends Service {
                         database.healthMetricDao()
                                 .insert(entity);
                         database.close();
+                        getApplicationContext().sendBroadcast(new Intent("Saved To Database"));
                     }
                 });
     }

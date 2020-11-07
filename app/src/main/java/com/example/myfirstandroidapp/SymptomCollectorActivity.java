@@ -1,7 +1,10 @@
 package com.example.myfirstandroidapp;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,6 +31,13 @@ import static com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_
 public class SymptomCollectorActivity extends AppCompatActivity {
     private int[] symptoms = new int[10];
     private FusedLocationProviderClient fusedLocationClient;
+    private BroadcastReceiver savedToDbReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ((Button) findViewById(R.id.submit_symptoms)).setEnabled(true);
+            ((Button) findViewById(R.id.upload_database)).setEnabled(true);
+        }
+    };
 
     private void setRatingButtonActions(RatingBar ratingBar, final int index) {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -41,6 +51,7 @@ public class SymptomCollectorActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getApplicationContext().registerReceiver(savedToDbReceiver, new IntentFilter("Saved To Database"));
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
         setContentView(R.layout.symptom_collector);
@@ -90,7 +101,8 @@ public class SymptomCollectorActivity extends AppCompatActivity {
         Button submitSymptoms = (Button) findViewById(R.id.submit_symptoms);
         submitSymptoms.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                ((Button)(view)).setEnabled(false);
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {

@@ -28,6 +28,7 @@ public class GetContactGraphActivity extends AppCompatActivity {
     private BroadcastReceiver fileDownloadReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            ((Button) findViewById(R.id.submit_subject_and_date)).setEnabled(true);
             FileInputStream contactGraphFile =  null;
             try {
                 contactGraphFile = getApplicationContext().openFileInput("ContactGraph");
@@ -126,7 +127,8 @@ public class GetContactGraphActivity extends AppCompatActivity {
         Button submit = (Button) findViewById(R.id.submit_subject_and_date);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                ((Button)(view)).setEnabled(false);
                 ((TableLayout) findViewById(R.id.contact_graph)).removeAllViews();
                 Intent intent = new Intent(getApplicationContext(), DownloadFileService.class);
                 intent.putExtra("subject_id", spinner.getSelectedItem().toString());
