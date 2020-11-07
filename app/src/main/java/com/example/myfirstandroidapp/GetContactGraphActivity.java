@@ -2,6 +2,7 @@ package com.example.myfirstandroidapp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.shapes.Shape;
@@ -15,6 +16,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,6 +66,25 @@ public class GetContactGraphActivity extends AppCompatActivity {
         });
 
         TableLayout tableLayout = (TableLayout) findViewById(R.id.contact_graph);
+        TableRow tableRowHeader = new TableRow(this);
+        {
+            TextView textView = new TextView(this);
+            textView.setText("subject_id");
+            textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+            textView.setPadding(10, 2, 10, 2);
+            textView.setBackgroundResource(R.drawable.cell_shape);
+            tableRowHeader.addView(textView);
+        }
+        for(String subject_id : getResources().getStringArray(R.array.subject_array)) {
+            TextView textView = new TextView(this);
+            textView.setText(subject_id);
+            textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+            textView.setPadding(10, 2, 10, 2);
+            textView.setBackgroundResource(R.drawable.cell_shape);
+            tableRowHeader.addView(textView);
+        }
+        tableLayout.addView(tableRowHeader);
+
         for(int i = 1; i<5; i++) {
             TableRow tableRow = new TableRow(this);
             for(int j = 1; j<5; j++) {
