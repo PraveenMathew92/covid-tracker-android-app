@@ -2,12 +2,17 @@ package com.example.myfirstandroidapp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -57,5 +62,18 @@ public class GetContactGraphActivity extends AppCompatActivity {
                 startService(intent);
             }
         });
+
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.contact_graph);
+        for(int i = 1; i<5; i++) {
+            TableRow tableRow = new TableRow(this);
+            for(int j = 1; j<5; j++) {
+                TextView textView = new TextView(this);
+                textView.setText(Integer.toString(i*10 + j));
+                textView.setPadding(10, 2, 10, 2);
+                textView.setBackgroundResource(R.drawable.cell_shape);
+                tableRow.addView(textView);
+            }
+            tableLayout.addView(tableRow);
+        }
     }
 }
