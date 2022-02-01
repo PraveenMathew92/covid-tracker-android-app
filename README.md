@@ -1,5 +1,6 @@
-# Learn-Android-App
-Trying out Android Features
+# Covid Tracker Android App
+
+An android app to measure the heart rate and the respiratory rate of the user using the inbuilt phone sensors.
 
 ## Technologies
 
